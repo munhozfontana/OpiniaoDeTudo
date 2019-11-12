@@ -24,9 +24,7 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rootView = inflater.inflate(R.layout.list_review_layout, null)
-        val repo = ReviewRepository(activity!!.applicationContext)
-        reviews = repo.listAll().toMutableList()
+        rootView = inflater.inflate(R.layout.review_list_item_layout, null)
         val listView = rootView.findViewById<ListView>(R.id.list_recyclerview)
         initList(listView)
         configureOnLongClick(listView)
@@ -37,8 +35,7 @@ class ListFragment : Fragment() {
         object : AsyncTask<Void, Void, ArrayAdapter<Review>>() {
             override fun doInBackground(vararg params: Void?): ArrayAdapter<Review> {
 
-                reviews =
-                    ReviewRepository(activity!!.applicationContext).listAll().toMutableList()
+                reviews = ReviewRepository(activity!!.applicationContext).listAll().toMutableList()
 
                 return object : ArrayAdapter<Review>(activity!!, -1, reviews) {
                     override fun getView(

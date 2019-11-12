@@ -18,25 +18,17 @@ class FormFragment : Fragment() {
     private lateinit var mainView: View
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         mainView = inflater.inflate(R.layout.new_review_form_layout, null)
-
-
         val buttonSave = mainView.findViewById<Button>(R.id.button_save)
         val textViewName = mainView.findViewById<TextView>(R.id.input_nome)
         val textViewReview = mainView.findViewById<TextView>(R.id.input_review)
-
-        val reviewToEdit =
-            (activity!!.intent?.getSerializableExtra("item") as Review?)?.also { review ->
-                textViewName.text = review.name
-                textViewReview.text = review.review
-            }
-
-
+        val reviewToEdit = (activity!!.intent?.getSerializableExtra("item") as Review?)?.also { review ->
+            textViewName.text = review.name
+            textViewReview.text = review.review
+        }
         buttonSave.setOnClickListener {
             val name = textViewName.text
             val review = textViewReview.text
@@ -45,7 +37,8 @@ class FormFragment : Fragment() {
                     val repository = ReviewRepository(activity!!.applicationContext)
                     if (reviewToEdit == null) {
                         repository.save(name.toString(), review.toString())
-                        startActivity(Intent(activity!!, ListActivity::class.java))
+                        val i = Intent(activity!!.applicationContext, ListActivity::class.java)
+                        startActivity(i)
                     } else {
                         repository.update(reviewToEdit.id, name.toString(), review.toString())
                         activity!!.finish()

@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         configureAutoHiddenKeyboard()
     }
 
+
     private fun configureAutoHiddenKeyboard(){
         val mainContainer = findViewById<ConstraintLayout>(R.id.main_container)
         mainContainer.setOnTouchListener { _ , _ ->
