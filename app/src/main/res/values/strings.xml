@@ -12,4 +12,6 @@
     <string name="item_list_edit">Modificar</string>
     <string name="item_list_delete">Apagar</string>
 
+    <string name="new_item">Novo Item</string>
+    <string name="list_item">Listar Itens</string>
 </resources>
