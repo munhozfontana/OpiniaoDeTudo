@@ -1,4 +1,4 @@
-package com.example.opiniaodetudo.pages
+package com.example.opiniaodetudo.pages.fragments
 
 import android.content.Intent
 import android.os.AsyncTask
@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
+import com.example.opiniaodetudo.pages.ListActivity
 
 class FormFragment : Fragment() {
 
@@ -40,7 +41,7 @@ class FormFragment : Fragment() {
                         val i = Intent(activity!!.applicationContext, ListActivity::class.java)
                         startActivity(i)
                     } else {
-                        repository.update(reviewToEdit.id, name.toString(), review.toString())
+                        repository.update(Review(reviewToEdit.id, name.toString(), review.toString()))
                         activity!!.finish()
                     }
                 }

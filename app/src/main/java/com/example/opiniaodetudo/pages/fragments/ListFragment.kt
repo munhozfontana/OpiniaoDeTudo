@@ -1,6 +1,6 @@
-package com.example.opiniaodetudo.pages
+package com.example.opiniaodetudo.pages.fragments
 
-import android.content.Intent
+import android.app.AlertDialog
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +11,13 @@ import android.widget.ListView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
+import com.example.opiniaodetudo.pages.fragments.dialog.EditDialogFragment
+import com.example.opiniaodetudo.pages.EditReviewViewModel
 
 class ListFragment : Fragment() {
 
@@ -25,12 +29,20 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.list_review_layout, null)
-//        val repo = ReviewRepository(activity!!.applicationContext)
-//        reviews = repo.listAll().toMutableList()
+
         val listView = rootView.findViewById<ListView>(R.id.list_recyclerview)
         initList(listView)
         configureOnLongClick(listView)
+        configureListObserver()
+
         return rootView
+    }
+
+    private fun configureListObserver() {
+        val reviewViewModel = ViewModelProviders.of(activity!!).get(EditReviewViewModel::class.java)
+        reviewViewModel.data.observe(this, Observer {
+            onResume()
+        })
     }
 
     private fun initList(listView: ListView) {
@@ -65,12 +77,12 @@ class ListFragment : Fragment() {
 
 
     private fun configureOnLongClick(listView: ListView?) {
-        listView?.setOnItemLongClickListener { parent, view, position, id ->
+        listView?.setOnItemLongClickListener { _ , view, position, _ ->
             val popupMenu = PopupMenu(activity!!, view)
             popupMenu.inflate(R.menu.list_review_item_menu)
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.item_list_delete -> this@ListFragment.delete(reviews[position])
+                    R.id.item_list_delete -> askForDelete(reviews[position])
                     R.id.item_list_edit -> this@ListFragment.openItemForEdition(reviews[position])
                 }
                 true
@@ -98,10 +110,11 @@ class ListFragment : Fragment() {
 
 
     private fun openItemForEdition(item: Review) {
-        val intent =
-            Intent(this@ListFragment.context!!.applicationContext, MainActivity::class.java)
-        intent.putExtra("item", item)
-        startActivity(intent)
+        val reviewViewModel = ViewModelProviders.of(activity!!).get(EditReviewViewModel::class.java)
+        val data = reviewViewModel.data
+        data.value = item
+
+        EditDialogFragment().show(fragmentManager, "edit_dialog")
     }
 
     override fun onResume() {
@@ -119,5 +132,15 @@ class ListFragment : Fragment() {
             }
         }.execute()
     }
+
+    private fun askForDelete(item: Review) {
+        AlertDialog.Builder(activity)
+            .setMessage(R.string.delete_confirmation)
+            .setPositiveButton(R.string.ok) { _, _ -> this.delete(item) }
+            .setNegativeButton(R.string.cancel) {
+                    dialog, _ -> dialog.dismiss()
+            }.create().show()
+    }
+
 
 }

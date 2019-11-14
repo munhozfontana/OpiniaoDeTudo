@@ -1,20 +1,14 @@
 package com.example.opiniaodetudo.pages
 
 import android.content.Context
-import android.content.Intent
-import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.opiniaodetudo.R
-import com.example.opiniaodetudo.domain.Review
-import com.example.opiniaodetudo.infra.repositories.ReviewRepository
+import com.example.opiniaodetudo.pages.fragments.FormFragment
+import com.example.opiniaodetudo.pages.fragments.ListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

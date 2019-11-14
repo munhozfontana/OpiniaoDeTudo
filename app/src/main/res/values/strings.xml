@@ -14,4 +14,9 @@
 
     <string name="new_item">Novo Item</string>
     <string name="list_item">Listar Itens</string>
+
+    <string name="delete_confirmation">Deseja Remover?</string>
+    <string name="ok">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+
 </resources>
