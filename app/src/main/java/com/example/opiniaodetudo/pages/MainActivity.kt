@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         val LIST_FRAGMENT = "listFragment"
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -47,7 +48,8 @@ class MainActivity : AppCompatActivity() {
 
     fun navigateTo(item: String) {
         val fragmentInstance: Fragment = fragments[item]?.invoke()!!
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container_main, fragmentInstance)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_main, fragmentInstance)
             .addToBackStack(item).commit()
     }
 
