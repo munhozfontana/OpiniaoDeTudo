@@ -54,8 +54,7 @@ class ListFragment : Fragment() {
                         convertView: View?,
                         parent: ViewGroup
                     ): View {
-                        val itemView =
-                            layoutInflater.inflate(R.layout.review_list_item_layout, null)
+                        val itemView = layoutInflater.inflate(R.layout.review_list_item_layout, null)
                         val item = reviews[position]
                         val textViewName = itemView.findViewById<TextView>(R.id.item_name)
                         val textViewReview = itemView.findViewById<TextView>(R.id.item_review)
