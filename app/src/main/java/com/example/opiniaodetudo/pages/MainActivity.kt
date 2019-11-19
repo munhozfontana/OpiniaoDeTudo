@@ -1,15 +1,24 @@
 package com.example.opiniaodetudo.pages
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.media.ThumbnailUtils
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.pages.fragments.FormFragment
 import com.example.opiniaodetudo.pages.fragments.ListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.io.FileInputStream
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    fun navigateTo(item: String) {
+    private fun navigateTo(item: String) {
         val fragmentInstance: Fragment = fragments[item]?.invoke()!!
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_main, fragmentInstance)
@@ -57,8 +66,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationMenu = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationMenu.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.menuitem_newitem -> navigateTo(FORM_FRAGMENT)
-                R.id.menuitem_listitem -> navigateTo(LIST_FRAGMENT)
+                R.id.menuitem_newitem -> navigateTo(it.itemId.toString())
             }
             true
         }

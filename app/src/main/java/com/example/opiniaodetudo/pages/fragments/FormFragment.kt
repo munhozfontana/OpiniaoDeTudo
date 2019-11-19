@@ -1,6 +1,9 @@
 package com.example.opiniaodetudo.pages.fragments
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.media.ThumbnailUtils
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
@@ -10,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.opiniaodetudo.R
@@ -17,6 +21,7 @@ import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
 import com.example.opiniaodetudo.pages.ListActivity
 import java.io.File
+import java.io.FileInputStream
 
 class FormFragment : Fragment() {
 
@@ -80,6 +85,27 @@ class FormFragment : Fragment() {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
             startActivityForResult(intent, TAKE_PICTURE_RESULT)
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(
+            requestCode,
+            resultCode,
+            data
+        )
+        if (requestCode == TAKE_PICTURE_RESULT) {
+            if (resultCode == Activity.RESULT_OK) {
+                val photoView = mainView.findViewById<ImageView>(R.id.photo)
+                val bitmap = BitmapFactory.decodeStream(FileInputStream(file))
+                val targetSize = 100
+                val thumbnail = ThumbnailUtils.extractThumbnail(bitmap, targetSize, targetSize)
+                photoView.setImageBitmap(thumbnail)
+                mainView.findViewById<TextView>(R.id.photo).visibility = View.VISIBLE
+            } else {
+                Toast.makeText(activity, "Erro ao tirar a foto", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
