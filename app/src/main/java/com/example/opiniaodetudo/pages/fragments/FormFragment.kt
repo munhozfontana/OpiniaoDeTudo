@@ -2,6 +2,7 @@ package com.example.opiniaodetudo.pages.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.ThumbnailUtils
 import android.os.AsyncTask
@@ -20,12 +21,15 @@ import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
 import com.example.opiniaodetudo.pages.ListActivity
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 
 class FormFragment : Fragment() {
 
     private lateinit var mainView: View
+    private var thumbnailBytes: ByteArray? = null
+
 
     companion object {
         val TAKE_PICTURE_RESULT = 101
@@ -46,14 +50,23 @@ class FormFragment : Fragment() {
                 textViewName.text = review.name
                 textViewReview.text = review.review
             }
+
+        configurePhotoClick()
+
         buttonSave.setOnClickListener {
             val name = textViewName.text
             val review = textViewReview.text
             object : AsyncTask<Void, Void, Unit>() {
                 override fun doInBackground(vararg params: Void?) {
                     val repository = ReviewRepository(activity!!.applicationContext)
+
                     if (reviewToEdit == null) {
-                        repository.save(name.toString(), review.toString())
+                        repository.save(
+                            name.toString(),
+                            review.toString(),
+                            file!!.toRelativeString(activity!!.filesDir),
+                            thumbnailBytes
+                        )
                         val i = Intent(activity!!.applicationContext, ListActivity::class.java)
                         startActivity(i)
                     } else {
@@ -89,7 +102,7 @@ class FormFragment : Fragment() {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(
             requestCode,
             resultCode,
@@ -102,11 +115,23 @@ class FormFragment : Fragment() {
                 val targetSize = 100
                 val thumbnail = ThumbnailUtils.extractThumbnail(bitmap, targetSize, targetSize)
                 photoView.setImageBitmap(thumbnail)
-                mainView.findViewById<TextView>(R.id.photo).visibility = View.VISIBLE
+                mainView.findViewById<ImageView>(R.id.photo).visibility = View.VISIBLE
+                generateThumbnailBytes(thumbnail, targetSize)
             } else {
                 Toast.makeText(activity, "Erro ao tirar a foto", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+    private fun generateThumbnailBytes(thumbnail: Bitmap, targetSize: Int) {
+        val thumbnailOutputStream = ByteArrayOutputStream()
+        thumbnail.compress(
+            Bitmap.CompressFormat.PNG,
+            targetSize,
+            thumbnailOutputStream
+        )
+        thumbnailBytes = thumbnailOutputStream.toByteArray()
+    }
+
 
 }

@@ -16,15 +16,18 @@ class ReviewRepository {
         reviewDao = reviewDatabase.reviewDao()
     }
 
-    fun save(name: String, review: String) {
+    fun save(name: String, review: String, photoPath: String?, thumbnailBytes: ByteArray?) {
         reviewDao.save(
             Review(
                 UUID.randomUUID().toString(),
                 name,
-                review
+                review,
+                photoPath,
+                thumbnailBytes
             )
         )
     }
+
 
     fun listAll(): List<Review> {
         return reviewDao.listAll()
@@ -34,7 +37,7 @@ class ReviewRepository {
         reviewDao.delete(item)
     }
 
-    fun update(review:Review) {
+    fun update(review: Review) {
         reviewDao.update(review)
     }
 
