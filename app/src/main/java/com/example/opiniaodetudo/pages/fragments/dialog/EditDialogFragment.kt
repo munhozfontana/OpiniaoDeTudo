@@ -23,7 +23,7 @@ class EditDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        setStyle(DialogFragment.STYLE_NORMAL, R.style.Cu)
+//        setStyle(DialogFragment.STYLE_NORMAL, R.style.Cus)
         val view = inflater.inflate(R.layout.new_review_form_layout, null)
 
         populateView(view)
@@ -60,12 +60,11 @@ class EditDialogFragment : DialogFragment() {
     }
 
     override fun onResume() {
-        val params = dialog.window?.attributes.apply {
-            var width = ViewGroup.LayoutParams.MATCH_PARENT
-            var height = ViewGroup.LayoutParams.MATCH_PARENT
+        dialog.window?.attributes = dialog.window!!.attributes.apply {
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+            height = ViewGroup.LayoutParams.MATCH_PARENT
 
         }
-        dialog.window?.attributes = params
         super.onResume()
     }
 }
