@@ -17,7 +17,7 @@ class ReviewRepository {
     }
 
     fun save(name: String, review: String, photoPath: String?, thumbnailBytes: ByteArray?) {
-        reviewDao.save(
+        return reviewDao.save(
             Review(
                 UUID.randomUUID().toString(),
                 name,
@@ -33,12 +33,19 @@ class ReviewRepository {
         return reviewDao.listAll()
     }
 
-    fun delete(item: Review) {
-        reviewDao.delete(item)
+    fun delete(review: Review) {
+        reviewDao.delete(review)
     }
 
     fun update(review: Review) {
-        reviewDao.update(review)
+        return reviewDao.update(review)
     }
+
+    fun updateLocation(entity: Review, lat: Double, long: Double) {
+        entity.latitude = lat
+        entity.longitude = long
+        reviewDao.update(entity)
+    }
+
 
 }

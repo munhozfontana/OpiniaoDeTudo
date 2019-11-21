@@ -21,6 +21,8 @@ import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
 import com.example.opiniaodetudo.pages.ListActivity
+import com.example.opiniaodetudo.pages.MainActivity
+import com.example.opiniaodetudo.utils.LocationService
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -56,8 +58,8 @@ class FormFragment : Fragment() {
         buttonSave.setOnClickListener {
             val name = textViewName.text
             val review = textViewReview.text
-            object : AsyncTask<Void, Void, Unit>() {
-                override fun doInBackground(vararg params: Void?) {
+            object : AsyncTask<Void, Void, Review>() {
+                override fun doInBackground(vararg params: Void?): Review {
                     val repository = ReviewRepository(activity!!.applicationContext)
 
                     if (reviewToEdit == null) {
@@ -78,6 +80,9 @@ class FormFragment : Fragment() {
                             )
                         )
                         activity!!.finish()
+                    }
+                    override fun onPostExecute(result: Review) {
+                        updateReviewLocation(result)
                     }
                 }
             }.execute()
@@ -131,6 +136,17 @@ class FormFragment : Fragment() {
             thumbnailOutputStream
         )
         thumbnailBytes = thumbnailOutputStream.toByteArray()
+    }
+
+    private fun updateReviewLocation(entity: Review) {
+        LocationService(activity!!).onLocationObtained { lat, long ->
+            val repository = ReviewRepository(activity!!.applicationContext)
+            object : AsyncTask<Void, Void, Unit>() {
+                override fun doInBackground(vararg params: Void?) {
+                    repository.updateLocation(entity, lat, long)
+                }
+            }.execute()
+        }
     }
 
 
