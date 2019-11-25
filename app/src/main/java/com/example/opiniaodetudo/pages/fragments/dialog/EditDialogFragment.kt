@@ -43,7 +43,7 @@ class EditDialogFragment : DialogFragment() {
             object : AsyncTask<Void, Void, Unit>() {
                 override fun doInBackground(vararg params: Void?) {
                     val repository = ReviewRepository(activity!!.applicationContext)
-                        repository.update(review)
+                        repository.update(review.id, review.name, review.review!!)
                 }
             }.execute()
 

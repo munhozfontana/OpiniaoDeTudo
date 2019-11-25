@@ -8,7 +8,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.opiniaodetudo.domain.Review
 
-@Database(entities = arrayOf(Review::class), version = 3)
+@Database(entities = arrayOf(Review::class), version = 2)
 abstract class ReviewDatabase : RoomDatabase() {
     companion object {
 

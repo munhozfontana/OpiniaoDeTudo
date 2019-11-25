@@ -61,9 +61,9 @@ class FormFragment : Fragment() {
             object : AsyncTask<Void, Void, Review>() {
                 override fun doInBackground(vararg params: Void?): Review {
                     val repository = ReviewRepository(activity!!.applicationContext)
-
+                    var entity: Review
                     if (reviewToEdit == null) {
-                        repository.save(
+                        entity = repository.save(
                             name.toString(),
                             review.toString(),
                             file!!.toRelativeString(activity!!.filesDir),
@@ -72,19 +72,20 @@ class FormFragment : Fragment() {
                         val i = Intent(activity!!.applicationContext, ListActivity::class.java)
                         startActivity(i)
                     } else {
-                        repository.update(
-                            Review(
-                                reviewToEdit.id,
-                                name.toString(),
-                                review.toString()
-                            )
+                        entity = repository.update(
+                            reviewToEdit.id,
+                            name.toString(),
+                            review.toString()
                         )
                         activity!!.finish()
                     }
-                    override fun onPostExecute(result: Review) {
-                        updateReviewLocation(result)
-                    }
+                    return entity
                 }
+
+                override fun onPostExecute(result: Review) {
+                    updateReviewLocation(result)
+                }
+
             }.execute()
             true
         }
