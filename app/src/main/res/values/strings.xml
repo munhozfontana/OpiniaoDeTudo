@@ -16,6 +16,8 @@
 
     <string name="new_item">Novo Item</string>
     <string name="list_item">Listar Itens</string>
+    <string name="item_list_map">Mapa</string>
+
 
     <string name="delete_confirmation">Deseja Remover?</string>
     <string name="ok">Confirmar</string>

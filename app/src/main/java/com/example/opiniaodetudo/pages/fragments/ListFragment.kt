@@ -1,9 +1,13 @@
 package com.example.opiniaodetudo.pages.fragments
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.BitmapFactory
+import android.location.Geocoder
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +20,7 @@ import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
 import com.example.opiniaodetudo.pages.fragments.dialog.EditDialogFragment
 import com.example.opiniaodetudo.pages.EditReviewViewModel
+import java.util.*
 
 class ListFragment : Fragment() {
 
@@ -54,7 +59,8 @@ class ListFragment : Fragment() {
                         convertView: View?,
                         parent: ViewGroup
                     ): View {
-                        val itemView = layoutInflater.inflate(R.layout.review_list_item_layout, null)
+                        val itemView =
+                            layoutInflater.inflate(R.layout.review_list_item_layout, null)
                         val item = reviews[position]
                         val textViewName = itemView.findViewById<TextView>(R.id.item_name)
                         val textViewReview = itemView.findViewById<TextView>(R.id.item_review)
@@ -86,14 +92,27 @@ class ListFragment : Fragment() {
 
     private fun configureOnLongClick(listView: ListView?) {
         listView?.setOnItemLongClickListener { _, view, position, _ ->
+
             val popupMenu = PopupMenu(activity!!, view)
             popupMenu.inflate(R.menu.list_review_item_menu)
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.item_list_delete -> askForDelete(reviews[position])
                     R.id.item_list_edit -> this@ListFragment.openItemForEdition(reviews[position])
+                    R.id.item_list_map -> openMap(reviews[position])
                 }
                 true
+            }
+
+            reviews[position].apply {
+                if (latitude != null && longitude != null) {
+                    val geocoder = Geocoder(activity!!, Locale.getDefault())
+                    for (address in geocoder.getFromLocation(latitude!!, longitude!!, 1)) {
+                        Log.d("GEOCODER", address.toString())
+                    }
+                    val item = popupMenu.menu.findItem(R.id.item_list_map)
+                    item.isVisible = true
+                }
             }
             popupMenu.show()
             true
@@ -148,6 +167,12 @@ class ListFragment : Fragment() {
             .setNegativeButton(R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
             }.create().show()
+    }
+
+    private fun openMap(review: Review) {
+        val uri = Uri.parse("geo:${review.latitude},${review.longitude}")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        activity!!.startActivity(intent)
     }
 
 
