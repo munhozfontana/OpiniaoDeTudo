@@ -7,11 +7,11 @@ import com.example.opiniaodetudo.infra.dao.ReviewDao
 import java.util.*
 
 
-class ReviewRepository {
+class ReviewRepository(context: Context) {
 
     private val reviewDao: ReviewDao
 
-    constructor(context: Context) {
+    init {
         val reviewDatabase = ReviewDatabase.getInstance(context)
         reviewDao = reviewDatabase.reviewDao()
     }

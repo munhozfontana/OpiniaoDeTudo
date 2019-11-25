@@ -9,8 +9,7 @@ import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.extension.SQLiteDatabaseTool
 import java.util.*
 
-class ReviewDBHelper(context: Context) :
-    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class ReviewDBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         const val DATABASE_NAME = "review_database"
         const val DATABASE_VERSION = 1
