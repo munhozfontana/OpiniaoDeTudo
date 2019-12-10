@@ -1,19 +1,12 @@
 package com.example.opiniaodetudo.pages
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-import android.media.ThumbnailUtils
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -22,7 +15,6 @@ import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.pages.fragments.FormFragment
 import com.example.opiniaodetudo.pages.fragments.ListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.io.FileInputStream
 
 class MainActivity : AppCompatActivity() {
 

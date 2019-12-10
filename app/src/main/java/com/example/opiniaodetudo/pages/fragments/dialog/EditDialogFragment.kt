@@ -1,6 +1,5 @@
 package com.example.opiniaodetudo.pages.fragments.dialog
 
-import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-
-import com.example.opiniaodetudo.R
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
 import com.example.opiniaodetudo.pages.EditReviewViewModel
-import com.example.opiniaodetudo.pages.ListActivity
 
 class EditDialogFragment : DialogFragment() {
     override fun onCreateView(

@@ -2,7 +2,6 @@ package com.example.opiniaodetudo.infra.dao
 
 import androidx.room.*
 import com.example.opiniaodetudo.domain.Review
-import com.example.opiniaodetudo.infra.dao.ReviewTableInfo
 
 @Dao
 interface ReviewDao {

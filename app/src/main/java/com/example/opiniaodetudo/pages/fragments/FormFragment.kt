@@ -21,7 +21,6 @@ import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
 import com.example.opiniaodetudo.pages.ListActivity
-import com.example.opiniaodetudo.pages.MainActivity
 import com.example.opiniaodetudo.utils.LocationService
 import java.io.ByteArrayOutputStream
 import java.io.File
