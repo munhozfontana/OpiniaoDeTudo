@@ -5,7 +5,7 @@
     <string name="form_title_field">Escreva o nome</string>
     <string name="form_review_name">Opinião</string>
     <string name="form_review_name_field">Escreva a opinião</string>
-    <string name="form_label_photo" >Foto</string>
+    <string name="form_label_photo">Foto</string>
 
 
     <string name="menu_list_reviews">Escreva a opinião</string>
@@ -23,6 +23,9 @@
     <string name="ok">Confirmar</string>
     <string name="cancel">Cancelar</string>
 
+    <string name="night_mode">Modo Noturno</string>
+    <string name="summary_night_mode">No modo noturno as cores do aplicativo ficam escuras</string>
+    <string name="settings">Configurações</string>
 
 
 </resources>

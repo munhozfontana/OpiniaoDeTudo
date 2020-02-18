@@ -11,25 +11,32 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.preference.PreferenceManager
 import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.pages.fragments.FormFragment
 import com.example.opiniaodetudo.pages.fragments.ListFragment
+import com.example.opiniaodetudo.pages.fragments.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private val fragments = mapOf(
-        R.id.menuitem_newitem to ::FormFragment,
-        R.id.menuitem_listitem to ::ListFragment
+        FORM_FRAGMENT to ::FormFragment,
+        LIST_FRAGMENT to ::ListFragment,
+        SETTINGS_FRAGMENT to ::SettingsFragment
     )
 
     companion object {
+        const val FORM_FRAGMENT = R.id.menuitem_newitem
+        const val LIST_FRAGMENT = R.id.menuitem_listitem
+        const val SETTINGS_FRAGMENT = R.id.menuitem_settings
         const val GPS_PERMISSION_REQUEST = 1231
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        chooseTheme()
         setContentView(R.layout.activity_main)
 
         configureAutoHiddenKeyboard()
@@ -58,6 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateTo(item: Int) {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         val fragmentInstance: Fragment = fragments[item]?.invoke()!!
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_main, fragmentInstance)
@@ -105,6 +113,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    fun setNightMode() {
+        recreate()
+    }
+
+    private fun chooseTheme() {
+        val nightMode = PreferenceManager.getDefaultSharedPreferences(this)
+            .getBoolean(SettingsFragment.NIGHT_MODE_PREF, false)
+        if (nightMode) {
+            setTheme(R.style.AppThemeNight_NoActionBar)
+        } else {
+            setTheme(R.style.AppTheme_NoActionBar)
+        }
+
+    }
 
 
 }
