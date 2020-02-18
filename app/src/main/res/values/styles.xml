@@ -13,4 +13,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppThemeNight" parent="Theme.AppCompat"></style>
+
+    <style name="AppThemeNight.NoActionBar" parent="AppThemeNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>
