@@ -3,4 +3,10 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="night_background">#142634</color>
+    <color name="night_textColor">#BDC7C1</color>
+    <color name="night_colorPrimary">#8F999A</color>
+    <color name="night_colorPrimaryDark">#49555A</color>
+    <color name="night_colorAccent">#d48872</color>
 </resources>
