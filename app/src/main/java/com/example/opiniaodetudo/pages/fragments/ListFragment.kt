@@ -18,8 +18,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
-import com.example.opiniaodetudo.pages.fragments.dialog.EditDialogFragment
 import com.example.opiniaodetudo.pages.EditReviewViewModel
+import com.example.opiniaodetudo.pages.MainActivity
+import com.example.opiniaodetudo.pages.fragments.dialog.EditDialogFragment
 import java.util.*
 
 class ListFragment : Fragment() {
@@ -36,6 +37,7 @@ class ListFragment : Fragment() {
         val listView = rootView.findViewById<ListView>(R.id.list_recyclerview)
         initList(listView)
         configureOnLongClick(listView)
+        configureOnClick(listView)
         configureListObserver()
 
         return rootView
@@ -116,6 +118,18 @@ class ListFragment : Fragment() {
             }
             popupMenu.show()
             true
+        }
+    }
+
+
+      private fun configureOnClick(listView: ListView) {
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val reviewViewModel =
+                ViewModelProviders.of(activity!!).get(EditReviewViewModel::class.java)
+            val data = reviewViewModel.data
+            data.value = reviews[position]
+
+            (activity!! as MainActivity).navigateWithBackStack(ShowReviewFragment())
         }
     }
 

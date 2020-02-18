@@ -39,8 +39,9 @@ class MainActivity : AppCompatActivity() {
         chooseTheme()
         setContentView(R.layout.activity_main)
 
+        navigateTo(FORM_FRAGMENT)
+
         configureAutoHiddenKeyboard()
-        navigateTo(R.id.menuitem_newitem)
         configureBottomMenu()
         askForGPSPermission()
 
@@ -59,17 +60,17 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
-    }
-
     private fun navigateTo(item: Int) {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        val fragmentInstance: Fragment = fragments[item]?.invoke()!!
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_main, fragmentInstance)
-            .addToBackStack(item.toString()).commit()
+        val fragmentInstance: Fragment =
+            fragments[item]?.invoke()!!
+        supportFragmentManager.beginTransaction().setCustomAnimations(
+            android.R.anim.fade_in,
+            android.R.anim.fade_out,
+            android.R.anim.slide_in_left,
+            android.R.anim.slide_out_right
+        ).replace(R.id.fragment_container_main, fragmentInstance).commit()
+
     }
 
     private fun configureBottomMenu() {
@@ -113,7 +114,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     fun setNightMode() {
         recreate()
     }
@@ -127,6 +127,23 @@ class MainActivity : AppCompatActivity() {
             setTheme(R.style.AppTheme_NoActionBar)
         }
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        supportFragmentManager.popBackStack()
+        return true
+    }
+
+    fun navigateWithBackStack(destiny: Fragment) {
+        supportFragmentManager.beginTransaction().setCustomAnimations(
+            android.R.anim.fade_in,
+            android.R.anim.fade_out,
+            android.R.anim.slide_in_left,
+            android.R.anim.slide_out_right
+        )
+            .replace(R.id.fragment_container_main, destiny)
+            .addToBackStack(null)
+            .commit()
     }
 
 
