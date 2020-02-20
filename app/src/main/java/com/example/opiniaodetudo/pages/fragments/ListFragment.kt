@@ -18,9 +18,16 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
+import com.example.opiniaodetudo.online.BASE_URL
+import com.example.opiniaodetudo.online.LIST_URL
 import com.example.opiniaodetudo.pages.EditReviewViewModel
 import com.example.opiniaodetudo.pages.MainActivity
 import com.example.opiniaodetudo.pages.fragments.dialog.EditDialogFragment
+import com.google.android.material.snackbar.Snackbar
+import okhttp3.*
+import org.json.JSONObject
+import java.io.File
+import okhttp3.MediaType.Companion.toMediaType
 import java.util.*
 
 class ListFragment : Fragment() {
@@ -100,6 +107,7 @@ class ListFragment : Fragment() {
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.item_list_delete -> askForDelete(reviews[position])
+                    R.id.item_list_upload -> uploadItem(reviews[position])
                     R.id.item_list_edit -> this@ListFragment.openItemForEdition(reviews[position])
                     R.id.item_list_map -> openMap(reviews[position])
                 }
@@ -122,7 +130,7 @@ class ListFragment : Fragment() {
     }
 
 
-      private fun configureOnClick(listView: ListView) {
+    private fun configureOnClick(listView: ListView) {
         listView.setOnItemClickListener { parent, view, position, id ->
             val reviewViewModel =
                 ViewModelProviders.of(activity!!).get(EditReviewViewModel::class.java)
@@ -189,5 +197,73 @@ class ListFragment : Fragment() {
         activity!!.startActivity(intent)
     }
 
+
+    private fun uploadPhoto(idOnline: String, review: Review, client: OkHttpClient) {
+        try {
+            val fieRequestBody = RequestBody.create(
+                "image/jpg".toMediaType(),
+                File(activity!!.filesDir, review.photoPath)
+            )
+            val multipartBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("image", idOnline, fieRequestBody).build()
+            val request =
+                Request.Builder().url("$BASE_URL/$LIST_URL/$idOnline/photo").post(multipartBody)
+                    .build()
+            client.newCall(request).execute()
+        } catch (e: Exception) {
+            Log.e(
+                "ERROR",
+                "Erro",
+                e
+            )
+            Snackbar.make(rootView, "Erro ao enviar foto da opinião", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Ok", {}).show()
+        }
+    }
+
+
+    private fun uploadItem(review: Review) {
+        object : AsyncTask<Void, Void, Unit>() {
+            override fun doInBackground(vararg params: Void?) {
+                try {
+
+                    val jsonObject = JSONObject().apply {
+                        put("id", review.id)
+                        put("name", review.name)
+                        put("review", review.review)
+                        put("latitude", review.latitude)
+                        put("longitude", review.longitude)
+                        put("thumbnail",  review.thumbnail)
+                    }
+                    val httpClient = OkHttpClient()
+
+                    val body = RequestBody.create("application/json".toMediaType(), jsonObject.toString())
+                    val request = Request.Builder().url("$BASE_URL/$LIST_URL").post(body).build()
+                    val response =  httpClient.newCall(request).execute()
+
+                    Snackbar.make(rootView, "Opinião Enviada com Sucesso!", Snackbar.LENGTH_LONG).show()
+
+                    val jsonReponse = JSONObject(response.body!!.string())
+
+
+                    if (response.code == 401) {
+                        throw Exception(jsonReponse.getString("message"))
+                    }
+
+                    if (review.photoPath != null) {
+                        uploadPhoto(jsonReponse.getString("id"), review, httpClient)
+                    }
+                } catch (e: Exception) {
+                    Log.e(
+                        "ERROR",
+                        "Erro",
+                        e
+                    )
+                    Snackbar.make(rootView, e.message.toString(), Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Ok", {}).show()
+                }
+            }
+        }.execute()
+    }
 
 }
