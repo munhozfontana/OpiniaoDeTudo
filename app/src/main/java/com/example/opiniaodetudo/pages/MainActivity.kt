@@ -60,10 +60,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun navigateTo(item: Int) {
+    public fun navigateTo(item: Int) {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        val fragmentInstance: Fragment =
-            fragments[item]?.invoke()!!
+        val fragmentInstance: Fragment = fragments[item]?.invoke()!!
         supportFragmentManager.beginTransaction().setCustomAnimations(
             android.R.anim.fade_in,
             android.R.anim.fade_out,

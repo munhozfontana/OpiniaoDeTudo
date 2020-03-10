@@ -233,15 +233,17 @@ class ListFragment : Fragment() {
                         put("review", review.review)
                         put("latitude", review.latitude)
                         put("longitude", review.longitude)
-                        put("thumbnail",  review.thumbnail)
+                        put("thumbnail", review.thumbnail?.toBase64())
                     }
                     val httpClient = OkHttpClient()
 
-                    val body = RequestBody.create("application/json".toMediaType(), jsonObject.toString())
+                    val body =
+                        RequestBody.create("application/json".toMediaType(), jsonObject.toString())
                     val request = Request.Builder().url("$BASE_URL/$LIST_URL").post(body).build()
-                    val response =  httpClient.newCall(request).execute()
+                    val response = httpClient.newCall(request).execute()
 
-                    Snackbar.make(rootView, "Opinião Enviada com Sucesso!", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(rootView, "Opinião Enviada com Sucesso!", Snackbar.LENGTH_LONG)
+                        .show()
 
                     val jsonReponse = JSONObject(response.body!!.string())
 
@@ -265,5 +267,9 @@ class ListFragment : Fragment() {
             }
         }.execute()
     }
-
 }
+
+private fun ByteArray?.toBase64(): String {
+    return String(android.util.Base64.encode(this, android.util.Base64.DEFAULT))
+}
+

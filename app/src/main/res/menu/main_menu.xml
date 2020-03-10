@@ -6,4 +6,5 @@
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:title="@string/menu_list_reviews_label"
         app:showAsAction="ifRoom" />
+
 </menu>
