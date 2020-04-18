@@ -32,4 +32,6 @@
 
     <string name="online">Sincronizar</string>
 
+    <string name="image_description">Descrição da imagem</string>
+
 </resources>

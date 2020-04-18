@@ -15,12 +15,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.opiniaodetudo.R
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.repositories.ReviewRepository
 import com.example.opiniaodetudo.pages.ListActivity
+import com.example.opiniaodetudo.pages.MainActivity
 import com.example.opiniaodetudo.utils.LocationService
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -68,6 +71,8 @@ class FormFragment : Fragment() {
                             file!!.toRelativeString(activity!!.filesDir),
                             thumbnailBytes
                         )
+
+//                        (activity as MainActivity).sendNotification("teste", "menssagem");
                         val i = Intent(activity!!.applicationContext, ListActivity::class.java)
                         startActivity(i)
                     } else {

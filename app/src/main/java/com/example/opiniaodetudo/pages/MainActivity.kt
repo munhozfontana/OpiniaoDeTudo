@@ -1,6 +1,8 @@
 package com.example.opiniaodetudo.pages
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -32,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         const val LIST_FRAGMENT = R.id.menuitem_listitem
         const val SETTINGS_FRAGMENT = R.id.menuitem_settings
         const val GPS_PERMISSION_REQUEST = 1231
+        const val PUSH_NOTIFICATION_MESSAGE_REQUEST = 1232
+        const val PUSH_NOTIFICATION_CHANNEL = "PushNotificationChannel"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,6 +149,25 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container_main, destiny)
             .addToBackStack(null)
             .commit()
+    }
+
+    fun sendNotification(title: String, message: String) {
+        val messageId = System.currentTimeMillis().toInt()
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(
+                this,
+                PUSH_NOTIFICATION_MESSAGE_REQUEST,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
+        val notification = NotificationCompat.Builder(
+            this, PUSH_NOTIFICATION_CHANNEL)
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setContentIntent(pendingIntent)
+            .build()
+        NotificationManagerCompat.from(this).notify(messageId, notification)
     }
 
 

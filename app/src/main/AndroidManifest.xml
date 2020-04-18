@@ -21,20 +21,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNight.NoActionBar">
-        <activity android:name=".pages.MainActivity">
-
-        </activity>
-
-        <activity android:name=".pages.ListActivity" />
-
-
-        <activity android:name=".pages.LoginActivity" >
+        <activity android:name=".pages.SplashActivity" android:theme="@style/SplashTheme" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".pages.MainActivity">
+        </activity>
+
+        <activity android:name=".pages.ListActivity" />
 
 
         <provider
