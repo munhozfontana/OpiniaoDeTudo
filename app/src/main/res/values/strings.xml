@@ -17,6 +17,8 @@
     <string name="new_item">Novo Item</string>
     <string name="list_item">Listar Itens</string>
     <string name="item_list_map">Mapa</string>
+    <string name="about">Sobre</string>
+    <string name="summary_about">Informações do autor</string>
 
 
     <string name="delete_confirmation">Deseja Remover?</string>
@@ -33,5 +35,11 @@
     <string name="online">Sincronizar</string>
 
     <string name="image_description">Descrição da imagem</string>
+
+    <string name="author_title">Autores</string>
+    <string name="author_1">Luís Fernando Munhoz Fontana Neto</string>
+    <string name="author_2">Lucas Marques Franco</string>
+    <string name="author_3">Marcelo Ribeiro dos Santos</string>
+    <string name="author_4">Diego Fernandes Paz</string>
 
 </resources>

@@ -119,10 +119,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setNightMode() {
-        recreate()
-    }
-
     private fun chooseTheme() {
         val nightMode = PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean(SettingsFragment.NIGHT_MODE_PREF, false)
@@ -132,6 +128,10 @@ class MainActivity : AppCompatActivity() {
             setTheme(R.style.AppTheme_NoActionBar)
         }
 
+    }
+
+    fun setNightMode() {
+        recreate()
     }
 
     override fun onSupportNavigateUp(): Boolean {

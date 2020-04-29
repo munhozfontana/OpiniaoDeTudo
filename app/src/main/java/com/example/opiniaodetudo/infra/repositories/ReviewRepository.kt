@@ -1,6 +1,7 @@
 package com.example.opiniaodetudo.infra.repositories
 
 import android.content.Context
+import android.graphics.Bitmap
 import com.example.opiniaodetudo.infra.dao.ReviewDatabase
 import com.example.opiniaodetudo.domain.Review
 import com.example.opiniaodetudo.infra.dao.ReviewDao
@@ -32,12 +33,22 @@ class ReviewRepository(context: Context) {
         return reviewDao.listAll()
     }
 
+    fun listById(id: String): Review? {
+        return reviewDao.listAll().find { review -> review.id == id }
+    }
+
     fun delete(review: Review) {
         reviewDao.delete(review)
     }
 
     fun update(id: String, name: String, review: String): Review {
         val entity = Review(id, name, review)
+        reviewDao.update(entity)
+        return entity
+    }
+
+    fun updateWithPath(id: String, name: String, review: String, photoPath: String, thumbnail: ByteArray): Review {
+        val entity = Review(id, name, review, photoPath, thumbnail)
         reviewDao.update(entity)
         return entity
     }

@@ -71,26 +71,17 @@ class FormFragment : Fragment() {
                             file!!.toRelativeString(activity!!.filesDir),
                             thumbnailBytes
                         )
-
-//                        (activity as MainActivity).sendNotification("teste", "menssagem");
-                        val i = Intent(activity!!.applicationContext, ListActivity::class.java)
-                        startActivity(i)
                     } else {
-                        entity = repository.update(
-                            reviewToEdit.id,
-                            name.toString(),
-                            review.toString()
-                        )
-                        activity!!.finish()
+                        entity = repository.update(reviewToEdit.id, name.toString(), review.toString())
                     }
+                    (activity as MainActivity).navigateTo(MainActivity.LIST_FRAGMENT)
                     return entity
                 }
-
                 override fun onPostExecute(result: Review) {
                     updateReviewLocation(result)
                 }
-
             }.execute()
+
             true
         }
         return mainView

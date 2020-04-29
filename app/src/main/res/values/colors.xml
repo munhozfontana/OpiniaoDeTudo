@@ -9,4 +9,6 @@
     <color name="night_colorPrimary">#8F999A</color>
     <color name="night_colorPrimaryDark">#49555A</color>
     <color name="night_colorAccent">#d48872</color>
+
+    <color name="light_textColor">#000000</color>
 </resources>
